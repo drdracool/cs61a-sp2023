@@ -64,6 +64,14 @@ def perms(seq):
     >>> sorted(perms("ab"))
     [['a', 'b'], ['b', 'a']]
     """
+    if len(seq) == 1:
+        yield list(seq)
+    else:
+        for elem in perms(seq[:-1]):
+            for i in range(len(seq)):
+                temp = elem[:]
+                temp.insert(i, seq[-1])
+                yield temp
 
 
 def yield_paths(t, value):
@@ -100,10 +108,12 @@ def yield_paths(t, value):
     >>> sorted(list(path_to_2))
     [[0, 2], [0, 2, 1, 2]]
     """
-    "*** YOUR CODE HERE ***"
-    for _______________ in _________________:
-        for _______________ in _________________:
-            "*** YOUR CODE HERE ***"
+
+    if label(t) == value:
+        yield [value]
+    for branch in branches(t):
+        for path in yield_paths(branch, value):
+            yield [label(t)] + path
 
 
 def remainders_generator(m):
@@ -137,7 +147,14 @@ def remainders_generator(m):
     7
     11
     """
-    "*** YOUR CODE HERE ***"
+
+    def single_generater(i):
+        for num in naturals():
+            if num % m == i:
+                yield num
+
+    for i in range(m):
+        yield single_generater(i)
 
 
 # Tree ADT
